@@ -12,7 +12,7 @@ REGEX_DELIMITER = "|"
 FILE_ENCODING = "utf-8"
 
 
-def replace_from_file(content_filename, replace_filename, regex=False):
+def replace_from_file(content_filename, replace_filename, output_filename, regex=False):
     """
     For every line in the replace_file, perform a replacement in the content_file
     The replace_file uses the delimiter |, simply escape the delimiter (\|) if
@@ -44,7 +44,7 @@ def replace_from_file(content_filename, replace_filename, regex=False):
 
         contents = replace_strings(contents, replace_list, replace_word, regex)
 
-    new_file = open("test.txt", "w", encoding=FILE_ENCODING)
+    new_file = open(output_filename, "w", encoding=FILE_ENCODING)
     new_file.write(contents)
 
     content_file.close()

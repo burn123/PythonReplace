@@ -63,4 +63,4 @@ class TestReplaceBadInput(TestCase):
 
     def test_bad_filenames(self):
         with self.assertRaises(FileNotFoundError):
-            replace.replace_from_file("fakefile.fff", "eee.444")
+            replace.replace_from_file("fakefile.fff", "eee.444", "fer.4")
