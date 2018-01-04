@@ -18,7 +18,6 @@ class TestReplace(TestCase):
         """
         result = replace.replace_strings("", ["", ""], "")
         self.assertEqual("", result)
-        print(replace.REGEX_DELIMITER)
 
     def test_replace_single_quote(self):
         result = replace.replace_strings(normal_string, "'", "1")
