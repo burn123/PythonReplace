@@ -2,6 +2,7 @@
 
 import re
 import sys
+import argparse
 
 if sys.version_info[0] != 3:
     print("This script requires Python version > 3.0")
@@ -25,11 +26,12 @@ def replace_from_file(content_filename, replace_filename, output_filename, regex
 
     :param str content_filename:    Name of the file that is having content replaced
     :param str replace_filename:    Definitions of the replace mappings
+    :param str output_filename:     Name of the file with replaced contents
     :param bool           regex:    Whether to use regex searching or not
     """
-    content_file = open(content_filename, encoding=FILE_ENCODING)
-    replace_file = open(replace_filename, "r+", encoding=FILE_ENCODING)
-    
+    content_file = open(content_filename, encoding = FILE_ENCODING)
+    replace_file = open(replace_filename, "r+", encoding = FILE_ENCODING)
+
     contents = content_file.read()
 
     for line in replace_file.readlines():
@@ -44,7 +46,7 @@ def replace_from_file(content_filename, replace_filename, output_filename, regex
 
         contents = replace_strings(contents, replace_list, replace_word, regex)
 
-    new_file = open(output_filename, "w", encoding=FILE_ENCODING)
+    new_file = open(output_filename, "w", encoding = FILE_ENCODING)
     new_file.write(contents)
 
     content_file.close()
@@ -75,4 +77,13 @@ def replace_strings(original, replace_list, replace_word, regex=False):
     return re.sub(reg, replace_word, original)
 
 
-replace_from_file("content.txt", "regex.txt", "new.txt")
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description = 'Replaces contents of file based on predefined regex patterns.')
+    parser.add_argument('-r', '--regex', action = 'store_true', help = 'Use regex matching')
+    parser.add_argument('content_filename', metavar = 'input_file', help = 'File to replace contents of')
+    parser.add_argument('replace_filename', metavar = 'regex_file', help = 'File to get the regex patterns from')
+    parser.add_argument('output_filename', metavar = 'output_file', default = 'replaced.txt', nargs = '?',
+                        help = 'Name of the file with replaced contents (default: replaced.txt)')
+    args = parser.parse_args()
+
+    replace_from_file(**vars(args))
