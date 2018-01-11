@@ -8,7 +8,7 @@ if sys.version_info[0] != 3:
     sys.exit(1)
 
 # The delimiter that separates the entries in the regex file
-REGEX_DELIMITER = "|"
+DELIMITER = "~"
 FILE_ENCODING = "utf-8"
 
 
@@ -34,11 +34,11 @@ def replace_from_file(content_filename, replace_filename, output_filename, regex
 
     for line in replace_file.readlines():
         # Use negative lookbehind to not split on escaped delimiters
-        temp = re.split(r'(?<!\\)\|', line.rstrip("\n"))
+        temp = re.split(r'(?<!\\)' + re.escape(DELIMITER), line.rstrip("\n"))
 
         replace_list = temp[:-1]
         # Now that the list has been split, unescape the delimiter
-        replace_list = [x.replace("\\|", "|") for x in replace_list]
+        replace_list = [x.replace("\\" + DELIMITER, DELIMITER) for x in replace_list]
 
         replace_word = temp[-1]
 
@@ -60,6 +60,7 @@ def replace_strings(original, replace_list, replace_word, regex=False):
     :param str              original:       The original text to replace words in
     :param Union[list, str] replace_list:   The list of words to replace
     :param str              replace_word:   The word to replace with
+    :param bool             regex:          Whether to use regex searching or not
     :return str: The text with the specified characters replaced
     """
     if not isinstance(original, str):
@@ -74,4 +75,4 @@ def replace_strings(original, replace_list, replace_word, regex=False):
     return re.sub(reg, replace_word, original)
 
 
-# replace_from_file("01-03-18 Messages.xml", "replace.txt")
+replace_from_file("content.txt", "regex.txt", "new.txt")

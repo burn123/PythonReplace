@@ -1,5 +1,5 @@
 import replace
-from replace import REGEX_DELIMITER as RD
+from replace import DELIMITER as RD
 from unittest import TestCase
 
 normal_string = "The 'quick' \"brown\" fox."
